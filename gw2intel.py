@@ -336,6 +336,8 @@ class GW2Intel(object):
                 self.timers[objective] = [owner, False]
                 row += 1
 
+        self.separator = ttk.Separator(self.frame)
+        self.separator.grid(columnspan=2)
         self.change_map()
         self.root.unbind('<<DataFetch>>')
         self.root.bind('<<DataFetch>>', self.update_content)
