@@ -275,6 +275,7 @@ class GW2Intel(object):
 
         self.controls.grid(column=0, row=0, sticky=(tk.W))
         self.frame.grid(column=0, row=1, sticky=(tk.N, tk.E, tk.S, tk.W))
+        self.frame.grid_columnconfigure(0, minsize=90)
 
         self.root.wm_title('GW2Intel')
         self.root.overrideredirect(True)
@@ -308,7 +309,6 @@ class GW2Intel(object):
         self.running = False
 
     def change_map(self):
-        print self.map.get()
         for _map, objectives in self.content.iteritems():
             for _, (label, timer, _) in objectives.iteritems():
                 self.hide(label, timer)
