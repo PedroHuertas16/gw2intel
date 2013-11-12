@@ -4,7 +4,7 @@ import Tkinter as tk
 import ttk
 import time
 import requests
-
+from collections import OrderedDict
 
 class API(object):
     _matches_url = 'https://api.guildwars2.com/v1/wvw/matches.json'
@@ -176,7 +176,7 @@ class API(object):
     @classmethod
     def get_objectives(cls, match_id):
         match_details = requests.get(cls._match_url, params={'match_id': match_id}).json()
-        objectives = {}
+        objectives = OrderedDict()
         for _map in match_details['maps']:
             objectives[_map['type']] = dict((i['id'], i['owner']) for i in _map['objectives'])
         return objectives
@@ -288,8 +288,8 @@ class GW2Intel(object):
         self.root.resizable(False, False)
         self.root.wm_attributes('-topmost', True)
         self.root.attributes("-alpha", 0.7)
-        self.root.wm_geometry('+0+{}'.format(300))
-        self.root.minsize(180, 1)
+        self.root.wm_geometry('+0+{}'.format(400))
+        self.root.minsize(140, 1)
 
         DragBehavior(self.root, 'x')
         self.root.bind('<Button-3>', lambda e: self.root.destroy())
@@ -375,7 +375,6 @@ class GW2Intel(object):
             else:
                 self.hide(label, timer)
                 timer.configure(text='')
-        self.root.wm_geometry("")
         self.root.after(1000, self.update_timers)
 
     def hide(self, label, timer):
