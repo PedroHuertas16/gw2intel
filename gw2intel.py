@@ -5,6 +5,7 @@ import ttk
 import time
 import requests
 from collections import OrderedDict
+import Queue, threading
 
 class API(object):
     _matches_url = 'https://api.guildwars2.com/v1/wvw/matches.json'
@@ -69,7 +70,6 @@ class API(object):
         '2301': 'Baruch Bay [SP]'
     }
 
-    matches = requests.get(_matches_url).json()['wvw_matches']
 
     #objectives = requests.get(_objectives_url).json()
     #objectives = dict((int(i['id']), i['name']) for i in objectives)
@@ -160,12 +160,15 @@ class API(object):
         'Center': 'EB'
     }
 
+    matches = requests.get(_matches_url).json()['wvw_matches']
+
     @classmethod
     def get_match(cls, world_id):
         for i in cls.matches:
             if i['blue_world_id'] == world_id or i['red_world_id'] == world_id or i['green_world_id'] == world_id:
                 return i
         return None
+
     @classmethod
     def get_map_objectives(cls, match_id, selected_map):
         match_details = requests.get(cls._match_url, params={'match_id': match_id}).json()
@@ -241,7 +244,7 @@ class DragBehavior(object):
 
 
 class GW2Intel(object):
-    def __init__(self, world, _map, update_interval=10000):
+    def __init__(self, world, _map, update_interval=10):
         self.root = tk.Tk()
         self.controls = ttk.Frame(self.root)
         self.frame = ttk.Frame(self.root)
@@ -254,21 +257,12 @@ class GW2Intel(object):
         self.update_interval = update_interval
         self.ri_init = 300 #initial Righteous Indignation time
 
-        self._orig = (-1, -1)
         self.setup()
 
-        self.create_content()
-        self.update_timers()
-
-    def change_map(self):
-        for i, (_map, objectives) in enumerate(self.content.iteritems()):
-            if self.map.get() == i:
-                for _, (label, timer, row) in objectives.iteritems():
-                    self.show(label, timer, row)
-            else:
-                for _, (label, timer, _) in objectives.iteritems():
-                    self.hide(label, timer)
-        self.root.wm_geometry("")
+        self.data_queue = Queue.Queue()
+        self.running = True
+        self.data_thread = threading.Thread(target=self.update_data)
+        self.data_thread.start()
 
     def setup(self):
         self.radiobuttons = (
@@ -293,7 +287,9 @@ class GW2Intel(object):
 
         DragBehavior(self.root, 'x')
         self.root.bind('<Button-3>', lambda e: self.root.destroy())
-        self.root.bind('<Button-3>', lambda e: self.root.wm_geometry(''))
+        #self.root.bind('<Button-2>', lambda e: self.root.wm_geometry(''))
+        self.root.bind('<<DataFetch>>', self.create_content)
+        self.root.bind('<Destroy>', self.stop_thread)
 
         s = ttk.Style()
         s.configure('Red.TLabel', foreground='red')
@@ -309,12 +305,21 @@ class GW2Intel(object):
         s.configure('RedHome.TRadiobutton', foreground='red')
         s.configure('Center.TRadiobutton', foreground='black')
 
-    def create_content(self):
+    def stop_thread(self, _):
+        self.running = False
+
+    def change_map(self):
+        for i, (_map, objectives) in enumerate(self.content.iteritems()):
+            for _, (label, timer, _) in objectives.iteritems():
+                self.hide(label, timer)
+        self.update_timers(False)
+
+    def create_content(self, _):
         self.content.clear()
         self.timers.clear()
         row = 0
 
-        for i, (_map, objectives) in enumerate(API.get_objectives(self.match['wvw_match_id']).iteritems()):
+        for i, (_map, objectives) in enumerate(self.data_queue.get().iteritems()):
             self.radiobuttons[i].configure(text=API.abbrv_bl[_map])
             self.radiobuttons[i]['style'] = _map + '.TRadiobutton'
             self.content[_map] = {}
@@ -334,11 +339,20 @@ class GW2Intel(object):
                 row += 1
 
         self.change_map()
-        self.root.after(self.update_interval, self.update_content)
+        self.root.unbind('<<DataFetch>>')
+        self.root.bind('<<DataFetch>>', self.update_content)
+        self.update_timers()
 
-    def update_content(self):
+    def update_data(self):
+        while self.running:
+            self.data_queue.put(API.get_objectives(self.match['wvw_match_id']))
+            self.root.event_generate('<<DataFetch>>')
+            time.sleep(self.update_interval)
+
+
+    def update_content(self, _):
         now = time.time()
-        for _map, objectives in API.get_objectives(self.match['wvw_match_id']).iteritems():
+        for _map, objectives in self.data_queue.get().iteritems():
             for objective, owner in objectives.iteritems():
                 if objective >= 62: continue #skip ruins
 
@@ -350,9 +364,7 @@ class GW2Intel(object):
                     self.timers[objective][0] = owner
                     self.timers[objective][1] = now
 
-        self.root.after(self.update_interval, self.update_content)
-
-    def update_timers(self):
+    def update_timers(self, endless=True):
         now = time.time()
         map_name = self.content.keys()[self.map.get()]
 
@@ -375,7 +387,9 @@ class GW2Intel(object):
             else:
                 self.hide(label, timer)
                 timer.configure(text='')
-        self.root.after(1000, self.update_timers)
+
+        if endless:
+            self.root.after(1000, self.update_timers)
 
     def hide(self, label, timer):
         label.grid_forget()
@@ -387,5 +401,8 @@ class GW2Intel(object):
 
 if __name__ == '__main__':
     app = GW2Intel(1006, 2)
-    app.root.mainloop()
+    try:
+        app.root.mainloop()
+    except KeyboardInterrupt:
+        app.root.destroy()
 
