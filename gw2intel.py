@@ -286,7 +286,7 @@ class GW2Intel(object):
         self.root.minsize(140, 1)
 
         DragBehavior(self.root, 'x')
-        self.root.bind('<Button-3>', lambda e: self.root.destroy())
+        self.root.bind('<Control-ButtonRelease-3>', lambda e: self.root.destroy())
         #self.root.bind('<Button-2>', lambda e: self.root.wm_geometry(''))
         self.root.bind('<<DataFetch>>', self.create_content)
         self.root.bind('<Destroy>', self.stop_thread)
