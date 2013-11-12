@@ -17,57 +17,57 @@ class API(object):
     # worlds = dict((i['id'], i['name']) for i in worlds)
 
     worlds = {
-        '1001': 'Anvil Rock',
-        '1002': 'Borlis Pass',
-        '1003': "Yak's Bend",
-        '1004': 'Henge of Denravi',
-        '1005': 'Maguuma',
-        '1006': "Sorrow's Furnace",
-        '1007': 'Gate of Madness',
-        '1008': 'Jade Quarry',
-        '1009': 'Fort Aspenwood',
-        '1010': 'Ehmry Bay',
-        '1011': 'Stormbluff Isle',
-        '1012': 'Darkhaven',
-        '1013': 'Sanctum of Rall',
-        '1014': 'Crystal Desert',
-        '1015': 'Isle of Janthir',
-        '1016': 'Sea of Sorrows',
-        '1017': 'Tarnished Coast',
-        '1018': 'Northern Shiverpeaks',
-        '1019': 'Blackgate',
-        '1020': "Ferguson's Crossing",
-        '1021': 'Dragonbrand',
-        '1022': 'Kaineng',
-        '1023': "Devona's Rest",
-        '1024': 'Eredon Terrace',
-        '2001': 'Fissure of Woe',
-        '2002': 'Desolation',
-        '2003': 'Gandara',
-        '2004': 'Blacktide',
-        '2005': 'Ring of Fire',
-        '2006': 'Underworld',
-        '2007': 'Far Shiverpeaks',
-        '2008': 'Whiteside Ridge',
-        '2009': 'Ruins of Surmia',
-        '2010': "Seafarer's Rest",
-        '2011': 'Vabbi',
-        '2012': 'Piken Square',
-        '2013': 'Aurora Glade',
-        '2014': "Gunnar's Hold",
-        '2101': 'Jade Sea [FR]',
-        '2102': 'Fort Ranik [FR]',
-        '2103': 'Augury Rock [FR]',
-        '2104': 'Vizunah Square [FR]',
-        '2105': 'Arborstone [FR]',
-        '2201': 'Kodash [DE]',
-        '2202': 'Riverside [DE]',
-        '2203': 'Elona Reach [DE]',
-        '2204': "Abaddon's Mouth [DE]",
-        '2205': 'Drakkar Lake [DE]',
-        '2206': "Miller's Sound [DE]",
-        '2207': 'Dzagonur [DE]',
-        '2301': 'Baruch Bay [SP]'
+        '1001': ('Anvil Rock', 'AR'),
+        '1002': ('Borlis Pass', 'BP'),
+        '1003': ("Yak's Bend", 'Yak'),
+        '1004': ('Henge of Denravi', 'Hod'),
+        '1005': ('Maguuma', 'Mag'),
+        '1006': ("Sorrow's Furnace", 'SF'),
+        '1007': ('Gate of Madness', 'GoM'),
+        '1008': ('Jade Quarry', 'JQ'),
+        '1009': ('Fort Aspenwood', 'FA'),
+        '1010': ('Ehmry Bay', 'EB'),
+        '1011': ('Stormbluff Isle', 'SBI'),
+        '1012': ('Darkhaven', 'DH'),
+        '1013': ('Sanctum of Rall', 'SoR'),
+        '1014': ('Crystal Desert', 'CD'),
+        '1015': ('Isle of Janthir', 'IoJ'),
+        '1016': ('Sea of Sorrows', 'SoS'),
+        '1017': ('Tarnished Coast', 'TC'),
+        '1018': ('Northern Shiverpeaks', 'NSP'),
+        '1019': ('Blackgate', 'BG'),
+        '1020': ("Ferguson's Crossing", 'FC'),
+        '1021': ('Dragonbrand', 'DB'),
+        '1022': ('Kaineng', 'KE'),
+        '1023': ("Devona's Rest", 'DR'),
+        '1024': ('Eredon Terrace', 'ET'),
+        '2001': ('Fissure of Woe', 'FW'),
+        '2002': ('Desolation', 'Des'),
+        '2003': ('Gandara', 'Gan'),
+        '2004': ('Blacktide', 'BT'),
+        '2005': ('Ring of Fire', 'RoF'),
+        '2006': ('Underworld', 'UW'),
+        '2007': ('Far Shiverpeaks', 'FSP'),
+        '2008': ('Whiteside Ridge', 'WSR'),
+        '2009': ('Ruins of Surmia', 'RoS'),
+        '2010': ("Seafarer's Rest", 'SR'),
+        '2011': ('Vabbi', 'Vab'),
+        '2012': ('Piken Square', 'PS'),
+        '2013': ('Aurora Glade', 'AG'),
+        '2014': ("Gunnar's Hold", 'GH'),
+        '2101': ('Jade Sea [FR]', 'JS'),
+        '2102': ('Fort Ranik [FR]', 'FR'),
+        '2103': ('Augury Rock [FR]', 'AR'),
+        '2104': ('Vizunah Square [FR]', 'VS'),
+        '2105': ('Arborstone [FR]', 'AS'),
+        '2201': ('Kodash [DE]', 'Kod'),
+        '2202': ('Riverside [DE]', 'RS'),
+        '2203': ('Elona Reach [DE]', 'ER'),
+        '2204': ("Abaddon's Mouth [DE]", 'AM'),
+        '2205': ('Drakkar Lake [DE]', 'DL'),
+        '2206': ("Miller's Sound [DE]", 'MS'),
+        '2207': ('Dzagonur [DE]', 'Dz'),
+        '2301': ('Baruch Bay [SP]', 'BB')
     }
 
 
@@ -75,90 +75,91 @@ class API(object):
     #objectives = dict((int(i['id']), i['name']) for i in objectives)
 
     objectives = {
-        1: "Overlook",
-        2: "Valley",
-        3: "Lowlands",
-        4: "Golanta Clearing",
-        5: "Pangloss Rise",
-        6: "Speldan Clearcut",
-        7: "Danelon Passage",
-        8: "Umberglade Woods",
-        9: "Stonemist Castle",
-        10: "Rogue's Quarry",
-        11: "Aldon's Ledge",
-        12: "Wildcreek Run",
-        13: "Jerrifer's Slough",
-        14: "Klovan Gully",
-        15: "Langor Gulch",
-        16: "Quentin Lake",
-        17: "Mendon's Gap",
-        18: "Anzalias Pass",
-        19: "Ogrewatch Cut",
-        20: "Veloka Slope",
-        21: "Durios Gulch",
-        22: "Bravost Escarpment",
-        23: "Garrison",
-        24: "Champion's demense",
-        25: "Redbriar",
-        26: "Greenlake",
-        27: "Ascension Bay",
-        28: "Dawn's Eyrie",
-        29: "The Spiritholme",
-        30: "Woodhaven",
-        31: "Askalion Hills",
-        32: "Etheron Hills",
-        33: "Dreaming Bay",
-        34: "Victors's Lodge",
-        35: "Greenbriar",
-        36: "Bluelake",
-        37: "Garrison",
-        38: "Longview",
-        39: "The Godsword",
-        40: "Cliffside",
-        41: "Shadaran Hills",
-        42: "Redlake",
-        43: "Hero's Lodge",
-        44: "Dreadfall Bay",
-        45: "Bluebriar",
-        46: "Garrison",
-        47: "Sunnyhill",
-        48: "Faithleap",
-        49: "Bluevale Refuge",
-        50: "Bluewater Lowlands",
-        51: "Astralholme",
-        52: "Arah's Hope",
-        53: "Greenvale Refuge",
-        54: "Foghaven",
-        55: "Redwater Lowlands",
-        56: "The Titanpaw",
-        57: "Cragtop",
-        58: "Godslore",
-        59: "Redvale Refuge",
-        60: "Stargrove",
-        61: "Greenwater Lowlands",
-        62: "Temple of Lost Prayers", # Ruins from here
-        63: "Battle's Hollow",
-        64: "Bauer's Estate",
-        65: "Orchard Overlook",
-        66: "Carver's Ascent",
-        67: "Carver's Ascent",
-        68: "Orchard Overlook",
-        69: "Bauer's Estate",
-        70: "Battle's Hollow",
-        71: "Temple of Lost Prayers",
-        72: "Carver's Ascent",
-        73: "Orchard Overlook",
-        74: "Bauer's Estate",
-        75: "Battle's Hollow",
-        76: "Temple of Lost Prayers"
+        1: ("Overlook", "Overlook"),
+        2: ("Valley", "Valley"),
+        3: ("Lowlands", "Lowlands"),
+        4: ("Golanta Clearing", "Golanta"),
+        5: ("Pangloss Rise", "Pangloss"),
+        6: ("Speldan Clearcut", "Speldan"),
+        7: ("Danelon Passage", "Danelon"),
+        8: ("Umberglade Woods", "Umberglade"),
+        9: ("Stonemist Castle", "SM Castle"),
+        10: ("Rogue's Quarry", "Rogue's"),
+        11: ("Aldon's Ledge", "Aldon's"),
+        12: ("Wildcreek Run", "Wildcreek"),
+        13: ("Jerrifer's Slough", "Jerrifer's"),
+        14: ("Klovan Gully", "Klovan"),
+        15: ("Langor Gulch", "Langor"),
+        16: ("Quentin Lake", "QL"),
+        17: ("Mendon's Gap", "Mendon's"),
+        18: ("Anzalias Pass", "Anzalias"),
+        19: ("Ogrewatch Cut", "Ogrewatch"),
+        20: ("Veloka Slope", "Veloka"),
+        21: ("Durios Gulch", "Durios"),
+        22: ("Bravost Escarpment", "Bravost"),
+        23: ("Garrison", "Garrison"),
+        24: ("Champion's demense", "Champion's"),
+        25: ("Redbriar", "Redbriar"),
+        26: ("Greenlake", "Greenlake"),
+        27: ("Ascension Bay", "Bay"),
+        28: ("Dawn's Eyrie", "Dawn's"),
+        29: ("The Spiritholme", "Spirit"),
+        30: ("Woodhaven", "Woodhaven"),
+        31: ("Askalion Hills", "Hills"),
+        32: ("Etheron Hills", "Hills"),
+        33: ("Dreaming Bay", "Bay"),
+        34: ("Victors's Lodge", "Victors's"),
+        35: ("Greenbriar", "Greenbriar"),
+        36: ("Bluelake", "Bluelake"),
+        37: ("Garrison", "Garrison"),
+        38: ("Longview", "Longview"),
+        39: ("The Godsword", "Godsword"),
+        40: ("Cliffside", "Cliffside"),
+        41: ("Shadaran Hills", "Hills"),
+        42: ("Redlake", "Redlake"),
+        43: ("Hero's Lodge", "Hero's"),
+        44: ("Dreadfall Bay", "Bay"),
+        45: ("Bluebriar", "Bluebriar"),
+        46: ("Garrison", "Garrison"),
+        47: ("Sunnyhill", "Sunnyhill"),
+        48: ("Faithleap", "Faithleap"),
+        49: ("Bluevale Refuge", "Bluevale"),
+        50: ("Bluewater Lowlands", "Bluewater"),
+        51: ("Astralholme", "Astralholme"),
+        52: ("Arah's Hope", "Arah's"),
+        53: ("Greenvale Refuge", "Greenvale"),
+        54: ("Foghaven", "Foghaven"),
+        55: ("Redwater Lowlands", "Redwater"),
+        56: ("The Titanpaw", "Titanpaw"),
+        57: ("Cragtop", "Cragtop"),
+        58: ("Godslore", "Godslore"),
+        59: ("Redvale Refuge", "Redvale"),
+        60: ("Stargrove", "Stargrove"),
+        61: ("Greenwater Lowlands", "Greenwater"),
+        62: ("Temple of Lost Prayers", "S Ruin"), # Ruins from here
+        63: ("Battle's Hollow", "SW Ruin"),
+        64: ("Bauer's Estate", "NW Ruin"),
+        65: ("Orchard Overlook", "NE Ruin"),
+        66: ("Carver's Ascent", "SE Ruin"),
+        67: ("Carver's Ascent", "SE Ruin"),
+        68: ("Orchard Overlook", "NE Ruin"),
+        69: ("Bauer's Estate", "Ruin"),
+        70: ("Battle's Hollow", "SW Ruin"),
+        71: ("Temple of Lost Prayers", "S Ruin"),
+        72: ("Carver's Ascent", "SE Ruin"),
+        73: ("Orchard Overlook", "NE Ruin"),
+        74: ("Bauer's Estate", "NW Ruin"),
+        75: ("Battle's Hollow", "SW Ruin"),
+        76: ("Temple of Lost Prayers", "S Ruin")
     }
 
-    abbrv_bl = {
-        'RedHome': 'R',
-        'GreenHome': 'G',
-        'BlueHome': 'B',
-        'Center': 'EB'
-    }
+
+    abbreviated_bl = OrderedDict((
+        ('RedHome', 'R'),
+        ('GreenHome', 'G'),
+        ('BlueHome', 'B'),
+        ('Center', 'EB')
+    ))
 
     matches = requests.get(_matches_url).json()['wvw_matches']
 
@@ -179,7 +180,7 @@ class API(object):
     @classmethod
     def get_objectives(cls, match_id):
         match_details = requests.get(cls._match_url, params={'match_id': match_id}).json()
-        objectives = OrderedDict()
+        objectives = {}
         for _map in match_details['maps']:
             objectives[_map['type']] = dict((i['id'], i['owner']) for i in _map['objectives'])
         return objectives
@@ -249,7 +250,7 @@ class GW2Intel(object):
         self.controls = ttk.Frame(self.root)
         self.frame = ttk.Frame(self.root)
         self.world = world
-        self.map = tk.IntVar(value=_map)
+        self.map = tk.StringVar(value=API.abbreviated_bl.keys()[_map])
         self.match = API.get_match(self.world)
 
         self.content = {}
@@ -265,14 +266,12 @@ class GW2Intel(object):
         self.data_thread.start()
 
     def setup(self):
-        self.radiobuttons = (
-            ttk.Radiobutton(self.controls, text='0', variable=self.map, value=0, command=self.change_map),
-            ttk.Radiobutton(self.controls, text='1', variable=self.map, value=1, command=self.change_map),
-            ttk.Radiobutton(self.controls, text='2', variable=self.map, value=2, command=self.change_map),
-            ttk.Radiobutton(self.controls, text='3', variable=self.map, value=3, command=self.change_map),
-        )
-        for i, checkbox in enumerate(self.radiobuttons):
-            checkbox.grid(column=i, row=0)
+        self.map_buttons = []
+        for i, (_map, bl) in enumerate(API.abbreviated_bl.iteritems()):
+            r = ttk.Radiobutton(self.controls, text=bl, variable=self.map, value=_map, command=self.change_map)
+            r.configure(text=API.abbreviated_bl[_map], value=_map)
+            r['style'] = _map + '.TRadiobutton'
+            r.grid(column=i, row=0)
 
         self.controls.grid(column=0, row=0, sticky=(tk.W))
         self.frame.grid(column=0, row=1, sticky=(tk.N, tk.E, tk.S, tk.W))
@@ -309,30 +308,29 @@ class GW2Intel(object):
         self.running = False
 
     def change_map(self):
-        for i, (_map, objectives) in enumerate(self.content.iteritems()):
+        print self.map.get()
+        for _map, objectives in self.content.iteritems():
             for _, (label, timer, _) in objectives.iteritems():
                 self.hide(label, timer)
-        self.update_timers(False)
+        self.update_timers()
 
     def create_content(self, _):
+        for child in self.frame.winfo_children(): child.destroy()
         self.content.clear()
         self.timers.clear()
         row = 0
 
-        for i, (_map, objectives) in enumerate(self.data_queue.get().iteritems()):
-            self.radiobuttons[i].configure(text=API.abbrv_bl[_map])
-            self.radiobuttons[i]['style'] = _map + '.TRadiobutton'
+        for _map, objectives in self.data_queue.get().iteritems():
             self.content[_map] = {}
 
             for objective, owner in objectives.iteritems():
-                objective_name = API.objectives[objective]
+                objective_name = API.objectives[objective][1]
+
                 if objective >= 62: continue #skip ruins
 
                 label = ttk.Label(self.frame, text=objective_name, style=owner + '.TLabel')
-                label.grid(column=0, row=row, sticky=(tk.W))
-
                 timer = ttk.Label(self.frame, text='', style='timer.TLabel')
-                timer.grid(column=1, row=row, sticky=(tk.E))
+                self.show(label, timer, row)
 
                 self.content[_map][objective] = (label, timer, row)
                 self.timers[objective] = [owner, False]
@@ -341,14 +339,16 @@ class GW2Intel(object):
         self.change_map()
         self.root.unbind('<<DataFetch>>')
         self.root.bind('<<DataFetch>>', self.update_content)
-        self.update_timers()
 
     def update_data(self):
         while self.running:
             self.data_queue.put(API.get_objectives(self.match['wvw_match_id']))
-            self.root.event_generate('<<DataFetch>>')
-            time.sleep(self.update_interval)
-
+            try:
+                self.root.event_generate('<<DataFetch>>')
+            except RuntimeError: #mainloop stopped, program ended
+                break
+            else:
+                time.sleep(self.update_interval)
 
     def update_content(self, _):
         now = time.time()
@@ -366,9 +366,8 @@ class GW2Intel(object):
 
     def update_timers(self, endless=True):
         now = time.time()
-        map_name = self.content.keys()[self.map.get()]
 
-        for objective, (label, timer, row) in self.content[map_name].iteritems():
+        for objective, (label, timer, row) in self.content[self.map.get()].iteritems():
             obj_timer = self.timers[objective][1]
             
             if obj_timer is not False:
