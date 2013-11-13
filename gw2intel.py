@@ -344,7 +344,7 @@ class GW2Intel(object):
         while not self.stop_thread.is_set():
             self.data_queue.put(API.get_objectives(self.match['wvw_match_id']))
             try:
-                self.root.event_generate('<<DataFetch>>')
+                self.root.event_generate('<<DataFetch>>', when='tail')
             except RuntimeError: #mainloop stopped, program ended
                 break
             else:
