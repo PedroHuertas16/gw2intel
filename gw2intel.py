@@ -258,11 +258,12 @@ class GW2Intel(object):
         self.update_interval = update_interval
         self.ri_init = 300 #initial Righteous Indignation time
 
-        self.setup()
-
         self.data_queue = Queue.Queue()
-        self.running = True
+        self.stop_thread = threading.Event()
+
+        self.setup()
         self.data_thread = threading.Thread(target=self.update_data)
+        self.data_thread.daemon = True
         self.data_thread.start()
 
     def setup(self):
@@ -289,7 +290,7 @@ class GW2Intel(object):
         self.root.bind('<Control-ButtonRelease-3>', lambda e: self.root.destroy())
         #self.root.bind('<Button-2>', lambda e: self.root.wm_geometry(''))
         self.root.bind('<<DataFetch>>', self.create_content)
-        self.root.bind('<Destroy>', self.stop_thread)
+        self.root.bind('<Destroy>', lambda e: self.stop_thread.set())
 
         s = ttk.Style()
         s.configure('Red.TLabel', foreground='red')
@@ -304,9 +305,6 @@ class GW2Intel(object):
         s.configure('BlueHome.TRadiobutton', foreground='blue')
         s.configure('RedHome.TRadiobutton', foreground='red')
         s.configure('Center.TRadiobutton', foreground='black')
-
-    def stop_thread(self, _):
-        self.running = False
 
     def change_map(self):
         for _map, objectives in self.content.iteritems():
@@ -343,14 +341,14 @@ class GW2Intel(object):
         self.root.bind('<<DataFetch>>', self.update_content)
 
     def update_data(self):
-        while self.running:
+        while not self.stop_thread.is_set():
             self.data_queue.put(API.get_objectives(self.match['wvw_match_id']))
             try:
                 self.root.event_generate('<<DataFetch>>')
             except RuntimeError: #mainloop stopped, program ended
                 break
             else:
-                time.sleep(self.update_interval)
+                self.stop_thread.wait(self.update_interval)
 
     def update_content(self, _):
         now = time.time()
