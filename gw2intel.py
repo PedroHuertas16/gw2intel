@@ -260,8 +260,8 @@ class GW2Intel(object):
 
         self.setup()
 
-        self.data_queue = Queue.Queue()
         self.running = True
+        self.data_queue = Queue.Queue()
         self.data_thread = threading.Thread(target=self.update_data)
         self.data_thread.start()
 
@@ -291,19 +291,28 @@ class GW2Intel(object):
         self.root.bind('<<DataFetch>>', self.create_content)
         self.root.bind('<Destroy>', self.stop_thread)
 
+        bg = '#fae03b'
+        red = '#8B1111'
+        green = '#1E7F1E'
+        blue = '#0000AC'
+        black = 'black'
         s = ttk.Style()
-        s.configure('Red.TLabel', foreground='red')
-        s.configure('Blue.TLabel', foreground='blue')
-        s.configure('Green.TLabel', foreground='green')
-        s.configure('Neutral.TLabel', foreground='black')
+        self.root.configure(background=bg)
+        s.configure('TFrame', background=bg)
+        s.configure('TLabel', background=bg)
+        s.configure('Red.TLabel', foreground=red)
+        s.configure('Blue.TLabel', foreground=blue)
+        s.configure('Green.TLabel', foreground=green)
+        s.configure('Neutral.TLabel', foreground=black)
         s.configure('timer.TLabel', font='TkDefaultFont 9')
         s.configure('soon.TLabel', font='TkDefaultFont 9 bold')
         #s.configure('TButton', padding='')
         #s.configure('TFrame', background="#f3d847")
-        s.configure('GreenHome.TRadiobutton', foreground='green')
-        s.configure('BlueHome.TRadiobutton', foreground='blue')
-        s.configure('RedHome.TRadiobutton', foreground='red')
-        s.configure('Center.TRadiobutton', foreground='black')
+        s.configure('TRadiobutton', background=bg)
+        s.configure('GreenHome.TRadiobutton', foreground=green)
+        s.configure('BlueHome.TRadiobutton', foreground=blue)
+        s.configure('RedHome.TRadiobutton', foreground=red)
+        s.configure('Center.TRadiobutton', foreground=black)
 
     def stop_thread(self, _):
         self.running = False
