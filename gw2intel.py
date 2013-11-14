@@ -244,6 +244,37 @@ class DragBehavior(object):
         self.parent.unbind('<Motion>')
 
 
+class Timer(threading.Thread):
+    """Call a function repeatedly at an specified number of seconds
+        until the function returns False or is cancelled:
+
+            t = Timer(30.0, f, args=[], kwargs={})
+            t.start()
+            t.cancel()     # stop the timer's action
+
+    """
+
+    def __init__(self, interval, function, args=[], kwargs={}):
+        threading.Thread.__init__(self)
+        self.interval = interval
+        self.function = function
+        self.args = args
+        self.kwargs = kwargs
+        self.finished = threading.Event()
+
+    def cancel(self):
+        """Stop the timer if it hasn't finished yet"""
+        self.finished.set()
+
+    def run(self):
+        while not self.finished.is_set():
+            keep_going = self.function(*self.args, **self.kwargs)
+            if not keep_going:
+                self.cancel()
+                break
+            self.finished.wait(self.interval)
+
+
 class GW2Intel(object):
     def __init__(self, world, _map, update_interval=10):
         self.root = tk.Tk()
@@ -258,12 +289,12 @@ class GW2Intel(object):
         self.update_interval = update_interval
         self.ri_init = 300 #initial Righteous Indignation time
 
-        self.setup()
-
-        self.running = True
         self.data_queue = Queue.Queue()
-        self.data_thread = threading.Thread(target=self.update_data)
-        self.data_thread.start()
+        self.timer = Timer(self.update_interval, self.update_data)
+        self.timer.daemon = True
+
+        self.setup()
+        self.timer.start()
 
     def setup(self):
         self.map_buttons = []
@@ -289,7 +320,7 @@ class GW2Intel(object):
         self.root.bind('<Control-ButtonRelease-3>', lambda e: self.root.destroy())
         #self.root.bind('<Button-2>', lambda e: self.root.wm_geometry(''))
         self.root.bind('<<DataFetch>>', self.create_content)
-        self.root.bind('<Destroy>', self.stop_thread)
+        self.root.bind('<Destroy>', lambda e: self.timer.cancel())
 
         bg = '#fae03b'
         red = '#8B1111'
@@ -313,9 +344,6 @@ class GW2Intel(object):
         s.configure('BlueHome.TRadiobutton', foreground=blue)
         s.configure('RedHome.TRadiobutton', foreground=red)
         s.configure('Center.TRadiobutton', foreground=black)
-
-    def stop_thread(self, _):
-        self.running = False
 
     def change_map(self):
         for _map, objectives in self.content.iteritems():
@@ -352,14 +380,12 @@ class GW2Intel(object):
         self.root.bind('<<DataFetch>>', self.update_content)
 
     def update_data(self):
-        while self.running:
-            self.data_queue.put(API.get_objectives(self.match['wvw_match_id']))
-            try:
-                self.root.event_generate('<<DataFetch>>')
-            except RuntimeError: #mainloop stopped, program ended
-                break
-            else:
-                time.sleep(self.update_interval)
+        self.data_queue.put(API.get_objectives(self.match['wvw_match_id']))
+        try:
+            self.root.event_generate('<<DataFetch>>', when='tail')
+        except RuntimeError: #mainloop stopped, program ended
+            return False
+        return True
 
     def update_content(self, _):
         now = time.time()
