@@ -161,11 +161,17 @@ class API(object):
         ('Center', 'EB')
     ))
 
-    matches = requests.get(_matches_url).json()['wvw_matches']
+    _matches = None
+
+    @classmethod
+    def matches(cls):
+        if cls._matches: return cls._matches
+        cls._matches = requests.get(cls._matches_url).json()['wvw_matches']
+        return cls._matches
 
     @classmethod
     def get_match(cls, world_id):
-        for i in cls.matches:
+        for i in cls.matches():
             if i['blue_world_id'] == world_id or i['red_world_id'] == world_id or i['green_world_id'] == world_id:
                 return i
         return None
