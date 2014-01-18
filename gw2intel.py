@@ -282,13 +282,13 @@ class Timer(threading.Thread):
 
 
 class GW2Intel(object):
-    def __init__(self, world, _map, update_interval=10):
+    def __init__(self, world, _map, update_interval=5):
         self.root = tk.Tk()
         self.controls = ttk.Frame(self.root)
         self.frame = ttk.Frame(self.root)
         self.world = world
         self.map = tk.StringVar(value=API.abbreviated_bl.keys()[_map])
-        self.match = API.get_match(self.world)
+        self.match = None
 
         self.content = {}
         self.timers = {}
@@ -386,7 +386,12 @@ class GW2Intel(object):
         self.root.bind('<<DataFetch>>', self.update_content)
 
     def update_data(self):
-        self.data_queue.put(API.get_objectives(self.match['wvw_match_id']))
+        try:
+            match_id = self.match['wvw_match_id']
+        except TypeError:
+            self.match = API.get_match(self.world)
+            match_id = self.match['wvw_match_id']
+        self.data_queue.put(API.get_objectives(match_id))
         try:
             self.root.event_generate('<<DataFetch>>', when='tail')
         except RuntimeError: #mainloop stopped, program ended
